@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header"><strong>Block Level Buttons</strong></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 class="text-center text-danger" *ngIf="weight">You entered: {{weight}} kg </h3>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-4">
+                <label class="font-weight-bold" for="">Glue Name</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold" for="">Scanner Barcode</label>
+            <input class="form-control" (change)='onChangeInput($event)' type="text"/>
+
+            </div>
+            <!-- <ejs-dropdownlist (change)='change($event)' [dataSource]='glues' [fields]='fields'></ejs-dropdownlist> -->
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label class="font-weight-bold" for="">Ingredient Name</label>
+              </div>
+              <div class="form-group col-sm-3">
+                <label class="font-weight-bold" for="">Percentage</label>
+              </div>
+              <div class="form-group col-sm-3">
+                <label class="font-weight-bold" for="">Input</label>
+              </div>
+            </div>
+            <ng-container *ngFor="let item of ingredients ;let i=index">
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <input class="form-control" [value]="item.name" type="text">
+                </div>
+                <div class="form-group col-sm-3">
+                  <input class="form-control" [value]="item.percentage + '%'" type="text">
+                </div>
+                <div class="form-group col-sm-3">
+                  <input class="form-control" (change)='onChange($event, item.percentage)'
+                    [placeholder]='suggestion(item.percentage)' type="text">
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row" *ngIf="show">
+          <div class="col-md-4"></div>
+          <div class="col-md-8">
+            <div class="control-section">
+              <div class="col-md-8">
+                <div class="chart-wrapper">
+                  <canvas baseChart class="chart" 
+                    [data]="pieChartData" 
+                    [labels]="pieChartLabels"
+                    [chartType]="pieChartType" 
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"
+                    [options]="pieChartOptions"
+                    [plugins]="pieChartPlugins"
+                    ></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

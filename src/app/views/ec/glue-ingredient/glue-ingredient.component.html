@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="title">List Glues</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of glues; let i= index" (click)='onClickGlue($event, item)'>
+              <td scope="row">{{ (paginationG.currentPage - 1) * paginationG.itemsPerPage + i + 1 }}</td>
+              <td>{{item.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer">
+        <ngb-pagination (pageChange)="onPageChange($event)" [collectionSize]="paginationG.totalItems"
+          [directionLinks]='true' [(page)]="paginationG.currentPage" [pageSize]='paginationG.itemsPerPage' [maxSize]="5"
+          [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="title">List Ingredients</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of ingredients; let i= index">
+              <td scope="row">{{ (paginationI.currentPage - 1) * paginationI.itemsPerPage + i + 1 }}</td>
+              <td>
+                <ejs-switch onLabel="ON" offLabel="OFF"  (change)='onOff($event, item)' [checked]="item.status"></ejs-switch>
+                {{item.name}}
+              </td>
+              <td>
+                {{item.percentage}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer">
+        <ngb-pagination (pageChange)="onPageChangeI($event)" [collectionSize]="paginationI.totalItems"
+          [directionLinks]='true' [(page)]="paginationI.currentPage" [pageSize]='paginationI.itemsPerPage' [maxSize]="5"
+          [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <strong *ngIf="!auditType.audit_Type_ID;else elseBlock">Add new</strong>
+          <ng-template #elseBlock><strong>Update</strong></ng-template>
+          Audit Type
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="backList()"><i
+              class="fa fa-chevron-left"></i>
+            Back</button>
+        </div>
+        <form class="form-horizontal" #addAuditTypeForm="ngForm" (ngSubmit)="addAuditTypeForm.valid && saveAndNext()">
+          <div class="card-body">
+
+            <div class="form-group row">
+              <label class="col-md-1 col-form-label" for="hf-email">Audit_Type_ID: </label>
+              <div class="col-md-3">
+                <input type="text" [disabled]="flag=='1'" [(ngModel)]="auditType.audit_Type_ID" name="audit_Type_ID"
+                  class="form-control" placeholder="Enter audit type id.." required>
+              </div>
+              <label class="col-md-1 col-form-label" for="hf-password">Brand</label>
+              <div class="col-md-3">
+                <select class="form-control" id="status" [(ngModel)]="auditType.brand" name="brand">
+
+                <option  *ngFor="let item of brands" value="{{item.brand_ID}}">{{item.brand_ID}} - {{item.brand_EN}}</option>
+                </select>
+              </div>
+              <label class="col-md-1 col-form-label" for="hf-password">Status</label>
+              <div class="col-md-3">
+                <select class="form-control" id="status" [(ngModel)]="auditType.status" name="status">
+                  <option value="1">Valid</option>
+                  <option value="0">Invalid</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-1 col-form-label" for="hf-password">Audit_Type1</label>
+              <div class="col-md-3">
+                <input type="text" [(ngModel)]="auditType.audit_Type1" name="audit_Type1" class="form-control"
+                  placeholder="Enter audit type 1..">
+              </div>
+              <label class="col-md-1 col-form-label" for="hf-password">Audit_Type2</label>
+              <div class="col-md-3">
+                <input type="text" [(ngModel)]="auditType.audit_Type2" name="audit_Type2" class="form-control"
+                  placeholder="Enter audit type 2..">
+              </div>
+              <label class="col-md-1 col-form-label" for="hf-password">Type2_Name</label>
+              <div class="col-md-3">
+                <input type="text" [(ngModel)]="auditType.Audit_Type2_Name" name="audit_Type2_Name" class="form-control"
+                  placeholder="Enter audit type 2 name..">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-1 col-form-label" for="hf-password">Version</label>
+              <div class="col-md-3">
+                <input type="number" [(ngModel)]="auditType.version" name="version" class="form-control"
+                  placeholder="Enter version..">
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-level-up"></i> Upgrade</button>
+            <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancel</button>
+            <button type="submit" *ngIf="flag=='0'" class="btn btn-sm btn-primary" [disabled]="!addAuditTypeForm.valid"><i
+                class="fa fa-check"></i> Save & Next</button>
+            <button type="button" class="btn btn-sm btn-success" [disabled]="!addAuditTypeForm.valid" (click)="save()"><i
+                class="fa fa-check"></i> Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
