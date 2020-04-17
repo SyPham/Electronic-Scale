@@ -9,6 +9,7 @@ import { ChartDataService } from '../../../_core/_services/chart-data.service';
 import { AccumulationChartComponent, IAccLoadedEventArgs, AccumulationTheme, AccumulationChart } from '@syncfusion/ej2-angular-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { ChartOptions } from 'chart.js';
+import { GlueIngredientService } from '../../../_core/_services/glue-ingredient.service';
 
 @Component({
   selector: 'app-make-glue',
@@ -50,7 +51,8 @@ export class MakeGlueComponent implements OnInit {
     private makeGlueService: MakeGlueService,
     private glueService: GlueService,
     private alertify: AlertifyService,
-    private chartDataService: ChartDataService
+    private chartDataService: ChartDataService,
+    private glueIngredientService: GlueIngredientService
   ) { }
 
   ngOnInit() {
@@ -149,5 +151,9 @@ export class MakeGlueComponent implements OnInit {
 
   }
   chartClicked($event) { }
-
+  mapGlueIngredient(glueIngredient) {
+    this.glueIngredientService.mappGlueIngredient(glueIngredient).subscribe( res => {
+      this.alertify.success('Glue and Ingredient have been mapping!');
+    });
+  }
 }

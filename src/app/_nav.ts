@@ -12,6 +12,30 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
+    name: 'User'
+  },
+  {
+    name: 'Plan',
+    url: '/ec/make-glue',
+    icon: 'icon-drop'
+  },
+  {
+    name: 'Maintenance Data',
+    url: '/ec/glue-ingredient',
+    icon: 'icon-drop'
+  },
+  {
+    name: 'Guildance',
+    url: '/ec/glue',
+    icon: 'icon-pencil'
+  },
+  {
+    name: 'Report',
+    url: '/ec/glue',
+    icon: 'icon-pencil'
+  },
+  {
+    title: true,
     name: 'Electronic Scale'
   },
   {

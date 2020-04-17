@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 // Components Routing
 import { ECRoutingModule } from './ec-routing.module';
 import { PaginationModule } from 'ngx-bootstrap';
@@ -21,8 +21,8 @@ import { BarcodeGeneratorAllModule, DataMatrixGeneratorAllModule } from '@syncfu
 import { ChartAllModule, AccumulationChartAllModule, RangeNavigatorAllModule } from '@syncfusion/ej2-angular-charts';
 import { ChartsModule } from 'ng2-charts';
 import { MakeGlueComponent } from './make-glue/make-glue.component';
-import { GridModule  } from '@syncfusion/ej2-angular-grids';
 import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
 @NgModule({
   imports: [
     CommonModule,
@@ -41,8 +41,8 @@ import { SwitchModule } from '@syncfusion/ej2-angular-buttons';
     RangeNavigatorAllModule,
     BarcodeGeneratorAllModule,
     DataMatrixGeneratorAllModule,
-    GridModule,
-    SwitchModule
+    SwitchModule,
+    GridModule
   ],
   declarations: [
     GlueIngredientComponent,

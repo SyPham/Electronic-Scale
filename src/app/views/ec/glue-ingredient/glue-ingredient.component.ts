@@ -11,36 +11,93 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { ChartOptions } from 'chart.js';
 import { PaginatedResult, Pagination } from '../../../_core/_models/pagination';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GlueModalComponent } from '../glue/glue-modal/glue-modal.component';
+import { PageSettingsModel, GridComponent } from '@syncfusion/ej2-angular-grids';
+
+import { EditService, ToolbarService, PageService } from '@syncfusion/ej2-angular-grids';
+
 @Component({
   selector: 'app-glue-ingredient',
   templateUrl: './glue-ingredient.component.html',
-  styleUrls: ['./glue-ingredient.component.scss']
+  styleUrls: ['./glue-ingredient.component.scss'],
+  providers: [ToolbarService, EditService, PageService]
 })
 export class GlueIngredientComponent implements OnInit {
-
-  public glues: object[];
+  data: IGlue[];
+  glue: IGlue = {
+    id: 0,
+    name: '',
+    code: '',
+    createdDate: ''
+  };
+  show: boolean;
+  public pageSettings: PageSettingsModel;
+  pagination: Pagination;
+  page = 1 ;
+  public glues: Object[];
   public ingredients: IIngredient[];
    paginationG: Pagination;
    paginationI: Pagination;
    glueid: number;
    percentage: number;
    gIchecked: boolean;
+   public editSettings: Object;
+    public toolbar: string[];
+    public orderidrules: Object;
+    public customeridrules: Object;
+    public freightrules: Object;
+    public editparams: Object;
+    @ViewChild('grid')
+    public grid: GridComponent;
   constructor(
     private glueIngredientService: GlueIngredientService,
     private glueService: GlueService,
     private alertify: AlertifyService,
+    public modalService: NgbModal,
     private chartDataService: ChartDataService,
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.resolver();
+    this.pageSettings = { pageSize: 6 };
+
     this.paginationI = {
       currentPage : 1,
       itemsPerPage: 10,
       totalItems: 0,
       totalPages: 0
-    }
+    };
+    this.editSettings = { showDeleteConfirmDialog: true, allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' };
+    this.toolbar = ['Add', 'Edit', 'Delete'];
+    this.orderidrules = { required: true, number: true };
+    this.customeridrules = { required: true };
+    this.freightrules =  { required: true };
+    this.editparams = { params: { popupHeight: '300px' }};
+  }
+  dataBound(args: any) {
+    this.grid.hideColumns(['code', 'code']); // show by HeaderText
+    this.grid.hideColumns(['createdDate', 'createdDate']); // show by HeaderText
+    // (this.grid.columns[0] as any).isPrimaryKey = 'true';
+    // for (const cols of this.grid.columns) {
+    //   if ((cols as any).field === 'id') {
+    //       (cols as any).width = 120;
+    //   }
+    //   if ((cols as any).field === 'createdDate') {
+    //       (cols as any).type = 'date';
+    //       (cols as any).format = 'yMd';
+    //   }
+    //   if ((cols as any).field === 'name') {
+    //       (cols as any).format = 'text';
+    //   }
+    // }
+    // this.grid.refreshColumns();
+  }
+  rowSelected(args: any ){
+    console.log("rowSelected :", args);
+    this.glueid = args.data.id;
+    this.getIngredients();
   }
   resolver() {
     this.route.data.subscribe(data => {
@@ -106,8 +163,8 @@ export class GlueIngredientComponent implements OnInit {
    getGlues() {
     // this.spinner.show();
      this.glueIngredientService.getGlues(this.paginationG.currentPage, this.paginationG.itemsPerPage)
-       .subscribe((res: PaginatedResult<IGlue[]>) => {
-         console.log('Glues: ', res)
+       .subscribe((res: PaginatedResult<Object[]>) => {
+         console.log('Glues: ', res);
          this.glues = res.result;
          this.paginationG = res.pagination;
      //    this.spinner.hide();
@@ -123,6 +180,38 @@ export class GlueIngredientComponent implements OnInit {
    delete(glueid, ingredient) {
     this.glueIngredientService.delete(glueid, ingredient).subscribe( res => {
       this.alertify.success('Glue and Ingredient have been deleted!');
+    });
+  }
+  deleteGlue(glue: IGlue) {
+    this.alertify.confirm('Delete Glue', 'Are you sure you want to delete this GlueID "' + glue.id + '" ?', () => {
+      this.glueService.delete(glue.id).subscribe(() => {
+        this.getGlues();
+        this.alertify.success('Glue has been deleted');
+      }, error => {
+        this.alertify.error('Failed to delete the Glue');
+      });
+    });
+  }
+  onPageChangeGlue($event) {
+    this.pagination.currentPage = $event;
+    this.getGlues();
+  }
+  openGlueModalComponent() {
+    const modalRef = this.modalService.open(GlueModalComponent, { size: 'md' });
+    modalRef.componentInstance.glue = this.glue;
+    modalRef.componentInstance.title = 'Add Glue';
+    modalRef.result.then((result) => {
+      console.log('OpenGlueModalComponent', result );
+    }, (reason) => {
+    });
+  }
+  openGlueEditModalComponent(item) {
+    const modalRef = this.modalService.open(GlueModalComponent, { size: 'md' });
+    modalRef.componentInstance.glue = item;
+    modalRef.componentInstance.title = 'Edit Glue';
+    modalRef.result.then((result) => {
+      console.log('openGlueEditModalComponent', result );
+    }, (reason) => {
     });
   }
 }

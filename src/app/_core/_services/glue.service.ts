@@ -11,7 +11,7 @@ import { IGlue } from '../_models/Glue';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    //'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    // 'Authorization': 'Bearer ' + localStorage.getItem('token'),
   }),
 };
 @Injectable({
@@ -22,8 +22,8 @@ export class GlueService {
   glueSource = new BehaviorSubject<number>(0);
   currentGlue = this.glueSource.asObservable();
   constructor(private http: HttpClient) { }
-  getGlues(page?, itemsPerPage?): Observable<PaginatedResult<IGlue[]>> {
-    const paginatedResult: PaginatedResult<IGlue[]> = new PaginatedResult<IGlue[]>();
+  getGlues(page?, itemsPerPage?): Observable<PaginatedResult<Object[]>> {
+    const paginatedResult: PaginatedResult<Object[]> = new PaginatedResult<Object[]>();
 
     let params = new HttpParams();
 
@@ -33,7 +33,7 @@ export class GlueService {
     }
 
 
-    return this.http.get<IGlue[]>(this.baseUrl + 'Glue/getGlues', { observe: 'response', params})
+    return this.http.get<Object[]>(this.baseUrl + 'Glue/getGlues', { observe: 'response', params})
       .pipe(
         map(response => {
           console.log(response);
